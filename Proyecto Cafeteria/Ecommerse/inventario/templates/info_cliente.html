@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Información del Cliente{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Datos del Cliente</h2>
+    <p>Nombre de Usuario: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <!-- Añadir más datos relevantes del cliente aquí -->
+
+    <h3>Historial de Compras</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID de Orden</th>
+                <th>Fecha</th>
+                <th>Total</th>
+                <th>Productos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for orden in historial_compras %}
+            <tr>
+                <td>{{ orden.id }}</td>
+                <td>{{ orden.fecha }}</td>
+                <td>{{ orden.total }}</td>
+                <td>
+                    <ul>
+                        {% for producto in orden.productos.all %}
+                        <li>{{ producto.nombre }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
