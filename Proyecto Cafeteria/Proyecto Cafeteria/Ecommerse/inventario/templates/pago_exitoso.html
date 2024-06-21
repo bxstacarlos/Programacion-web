@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Pago Exitoso{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>¡Pago Exitoso!</h2>
+    <p>Su pago ha sido procesado correctamente.</p>
+    <p>Detalles de la transacción:</p>
+    <ul>
+        <li>Orden: {{ response.buy_order }}</li>
+        <li>Monto: {{ response.amount }}</li>
+        <li>Estado: {{ response.status }}</li>
+    </ul>
+    <a href="{% url 'home' %}" class="btn btn-primary">Volver al inicio</a>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Carrito de Compras</h2>
+
+    {% if messages %}
+    <div class="alert alert-warning" role="alert">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if carrito.elementos.exists %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Imagen</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for elemento in carrito.elementos.all %}
+            <tr>
+                <td>{{ elemento.producto.nombre }}</td>
+                <td><img src="{{ elemento.producto.foto.url }}" alt="{{ elemento.producto.nombre }}" style="width: 50px; height: auto;"></td>
+                <td>{{ elemento.cantidad }}</td>
+                <td>${{ elemento.producto.precio }}</td>
+                <td>${{ elemento.get_total_price }}</td>
+                <td>
+                    <a href="{% url 'agregar_al_carrito' elemento.producto.id %}" class="btn btn-success btn-sm">Agregar</a>
+                    <a href="{% url 'eliminar_del_carrito' elemento.producto.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-right mt-4">
+        <a href="{% url 'iniciar_pago' %}" class="btn btn-primary">Pagar con Webpay</a>
+    </div>
+    {% else %}
+    <div class="text-center">
+        <h3>Tu Carro está vacío</h3>
+        <p>¡Aprovecha! Tenemos miles de productos en oferta y oportunidades únicas.</p>
+        <a href="{% url 'home' %}" class="btn btn-dark">Ver ofertas</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
