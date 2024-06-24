@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Your Cart{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Your Cart</h1>
+    <ul class="list-group">
+        {% for item in cart.items.all %}
+        <li class="list-group-item">{{ item.product.name }} x {{ item.quantity }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'create_order' %}" class="btn btn-primary mt-3">Create Order</a>
+</div>
+{% endblock %}

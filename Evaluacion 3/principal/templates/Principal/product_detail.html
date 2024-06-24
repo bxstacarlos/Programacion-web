@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Detail{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Order {{ order.id }}</h1>
+    <ul class="list-group">
+        {% for detail in order.order_details.all %}
+        <li class="list-group-item">{{ detail.product.name }} x {{ detail.quantity }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total Price: ${{ order.total_price }}</p>
+</div>
+{% endblock %}

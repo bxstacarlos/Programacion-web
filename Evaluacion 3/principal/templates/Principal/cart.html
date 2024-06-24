@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrito de Compras{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Carrito de Compras</h2>
+    {% if order_details %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_details %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price }}</td>
+                <td>${{ item.price|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No tienes productos en tu carrito.</p>
+    {% endif %}
+</div>
+{% endblock %}
