@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
-from .models import Product, Category, Order, OrderDetail, Customer
+from .models import Product, Category, Order, OrderDetail, Customer, Local
 from django.contrib import messages
 from .models import CustomUser, Customer
 
@@ -14,6 +14,10 @@ def home(request):
         'categories': categories,
         'products_by_category': products_by_category
     })
+
+def locales(request):
+    locales_list = Local.objects.all()
+    return render(request, 'principal/locales.html', {'locales': locales_list})
 
 def register(request):
     if request.method == 'POST':

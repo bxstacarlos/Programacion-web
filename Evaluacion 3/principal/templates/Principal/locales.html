@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Locales{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Locales</h2>
+    <div class="row">
+        {% for local in locales %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ local.name }}</h5>
+                    <p class="card-text"><strong>Dirección:</strong> {{ local.address }}</p>
+                    <p class="card-text"><strong>Teléfono:</strong> {{ local.phone }}</p>
+                    <p class="card-text"><strong>Email:</strong> {{ local.email }}</p>
+                    {% if local.description %}
+                    <p class="card-text"><strong>Descripción:</strong> {{ local.description }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- Imagen grande debajo de las tarjetas -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <img src="{% static 'images/Mapa.png' %}" class="img-fluid" alt="IMAGEN NO DISPONIBLE">
+        </div>
+    </div>
+</div>
+{% endblock %}

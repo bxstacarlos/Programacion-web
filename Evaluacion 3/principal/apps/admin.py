@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Category, Product, Order, OrderDetail
+from .models import CustomUser, Category, Product, Order, OrderDetail, Local
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -28,3 +28,8 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = ('status', 'created_at')
     search_fields = ('user__username',)
     inlines = [OrderDetailInline]
+
+@admin.register(Local)
+class LocalAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'direccion', 'telefono', 'email')
+    search_fields = ('nombre', 'direccion', 'telefono', 'email')
