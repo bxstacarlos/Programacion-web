@@ -37,7 +37,7 @@
 }
 
 .btn-primary {
-    background-color: #0069d9;
+    background-color: #091050;
     border: none;
     margin-top: auto;
 }
@@ -52,6 +52,22 @@
     font-weight: bold;
     color: #333;
 }
+
+.main-image img {
+    width: 100%;
+    height: auto;
+}
+
+.additional-images img {
+    width: 100px;
+    height: auto;
+    cursor: pointer;
+}
+
+.additional-images .additional-image {
+    flex: 1;
+}
+
 
 footer {
     background-color: #343a40;

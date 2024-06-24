@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Category, Product, Order, OrderDetail, Local
+from .models import CustomUser, Category, Product, Order, OrderDetail, Local, ProductImage
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -11,12 +11,20 @@ class CustomUserAdmin(UserAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'description')
+    
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1    
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'stock', 'category')
     list_filter = ('category',)
     search_fields = ('name', 'category__name')
+    
+@admin.register(ProductImage)
+class ProductImageAdmin(admin.ModelAdmin):
+    pass
 
 class OrderDetailInline(admin.TabularInline):
     model = OrderDetail

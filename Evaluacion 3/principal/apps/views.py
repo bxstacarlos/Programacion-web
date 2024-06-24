@@ -49,27 +49,46 @@ def register(request):
 
     return render(request, 'principal/register.html')
 
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    images = product.images.all()  # Obtener todas las imágenes relacionadas con el producto
+    return render(request, 'principal/product_detail.html', {'product': product, 'images': images})
 
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    order, created = Order.objects.get_or_create(user=request.user, status='pending')
+    
+    # Verificar si el producto ya está en el carrito
+    order_detail, created = OrderDetail.objects.get_or_create(order=order, product=product)
+    if not created:
+        # Si ya está, aumentar la cantidad
+        order_detail.quantity += 1
+    else:
+        order_detail.quantity = 1
+        order_detail.price = product.price  # Asumimos que el precio del producto no cambia
+    order_detail.save()
+
+    return redirect('cart')
 
 @login_required
 def cart(request):
-    # Asumimos que tienes un modelo Order y OrderDetail
-    try:
-        order = Order.objects.get(user=request.user, status='pending')
+    order = Order.objects.filter(user=request.user, status='pending').first()
+    if order:
         order_details = OrderDetail.objects.filter(order=order)
-    except Order.DoesNotExist:
-        order_details = None
+    else:
+        order_details = []
 
     return render(request, 'principal/cart.html', {'order_details': order_details})
 
+@login_required
+def remove_from_cart(request, item_id):
+    order_detail = get_object_or_404(OrderDetail, id=item_id, order__user=request.user, order__status='pending')
+    order_detail.delete()
+    return redirect('cart')
 
 
 
-
-def product_detail(request, product_id):
-    """Vista para los detalles de un producto."""
-    product = get_object_or_404(Product, id=product_id)
-    return render(request, 'principal/product_detail.html', {'product': product})
 
 @login_required
 def create_order(request):

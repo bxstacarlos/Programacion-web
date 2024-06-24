@@ -1,15 +1,49 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Order Detail{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <h1>Order {{ order.id }}</h1>
-    <ul class="list-group">
-        {% for detail in order.order_details.all %}
-        <li class="list-group-item">{{ detail.product.name }} x {{ detail.quantity }}</li>
-        {% endfor %}
-    </ul>
-    <p>Total Price: ${{ order.total_price }}</p>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Imagen Principal -->
+        <div class="col-md-6">
+            <div class="main-image mb-4">
+                {% if product.image %}
+                <img id="mainImage" src="{{ product.image.url }}" class="img-fluid" alt="{{ product.name }}">
+                {% else %}
+                <img id="mainImage" src="{% static 'path/to/default_image.jpg' %}" class="img-fluid" alt="Default Image">
+                {% endif %}
+            </div>
+            <!-- Carrusel de Imágenes Adicionales -->
+            <div class="additional-images d-flex">
+                {% for image in images %}
+                <div class="additional-image mx-2">
+                    <img src="{{ image.image.url }}" class="img-thumbnail" alt="{{ product.name }}" onclick="changeMainImage('{{ image.image.url }}')">
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Detalles del Producto -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <p>{{ product.description }}</p>
+            <p><strong>Precio:</strong> ${{ product.price }}</p>
+            <p><strong>Unidades disponibles:</strong> {{ product.stock }}</p>
+            <p><strong>Categoria:</strong> {{ product.category }}</p>
+            <!-- Botón de Comprar -->
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg mt-3">Agregar</button>
+                <button type="submit" class="btn btn-danger btn-lg mt-3">Ver Carrito</button>
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+function changeMainImage(imageUrl) {
+    document.getElementById('mainImage').src = imageUrl;
+}
+</script>
 {% endblock %}
